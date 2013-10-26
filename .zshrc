@@ -74,6 +74,13 @@ alias deploy="cp ~/code/aimspublic/0_0_2/dev/esb/service-core/target/service-cor
 alias e="subl"
 alias ez="e ~/.zshrc"
 alias sz="source ~/.zshrc"
+function cz {
+    cd ~/config
+    git add .
+    git commit -m "$1"
+    git push
+    cd -
+}
 alias l="ls -la"
 alias c="clear"
 alias ip="ipconfig getifaddr en4"
