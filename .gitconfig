@@ -1,1 +1,19 @@
-../.gitconfig
+[core]
+	quotepath = false
+	excludesfile = /Users/henningjuva/.gitignore_global
+[user]
+	name = Henning Juva
+	email = henning.juva@gmail.com
+[alias]
+    st = status
+    co = checkout
+    ci = commit
+    br = branch
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = current
