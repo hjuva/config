@@ -76,8 +76,11 @@ alias ez="e ~/.zshrc"
 alias sz="source ~/.zshrc"
 function cz {
     cd ~/config
-    git add .
-    git commit -m "$1"
+    git commit -a -m "$1"
+    cd -
+}
+function pz {
+    cd ~/config
     git push
     cd -
 }
