@@ -167,6 +167,8 @@ export FUSE_ESB_HOME=/Users/henningjuva/code/fuse/fuse-esb-7.0.0.fuse-061
 
 # source /Users/henningjuva/code/oracle/wls12c/wlserver/server/bin/setWLSEnv.sh
 
+#test
+
 export no_proxy=localhost,aims1,aims2,10.0.140.133
 function proxy (){    
     export http_proxy=proxy.lv.no:80
