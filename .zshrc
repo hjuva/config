@@ -84,13 +84,16 @@ function pz {
     git push
     cd -
 }
+function sc { scp $1 sos610: }
+
 alias l="ls -la"
 alias c="clear"
 alias ip="ipconfig getifaddr en4"
 
+
 # launch
-alias fuse="cd ~/code/fuse/fuse-esb-7.0.0.fuse-061"
-alias fuseesb="~/code/fuse/fuse-esb-7.0.0.fuse-061/bin/fuseesb"
+alias fuse="cd ~/code/fuse/current"
+alias fuseesb="~/code/fuse/current/bin/fuse"
 alias setwls="~/code/oracle/wls12c/wlserver/server/bin/setWLSEnv.sh"
 
 # dirs
@@ -102,6 +105,7 @@ alias aimsp="cd ~/code/aimspublic/dev/esb"
 alias ah="cd ~/code/aims_filestore"
 alias eclipse="cd /Applications/eclipse/Eclipse.app/Contents/MacOS"
 alias maven="cd /usr/local/Cellar/maven/3.1.1"
+alias down="cd /Downloads"
 
 # mvn
 function it { mvn failsafe:integration-test -Dit.test="$1" ; }
@@ -162,7 +166,7 @@ export AIMS_CACHE_MULTICAST_PORT=9541
 export AIMS_HAZELCAST_PORT=9552
 export AIMS_CACHE_INTERFACE_ENABLED=false
 export AIMS_CACHE_INTERFACE_RANGE="10.0.140.*"
-export FUSE_ESB_HOME=/Users/henningjuva/code/fuse/fuse-esb-7.0.0.fuse-061
+export FUSE_ESB_HOME=/Users/henningjuva/code/fuse/current
 
 
 # source /Users/henningjuva/code/oracle/wls12c/wlserver/server/bin/setWLSEnv.sh
