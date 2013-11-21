@@ -3,31 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
-#.                             dstufft.zsh-theme             jbergantine.zsh-theme         mortalscumbag.zsh-theme       sorin.zsh-theme
-#..                            duellj.zsh-theme              jispwoso.zsh-theme            mrtazz.zsh-theme              sporty_256.zsh-theme
-#Soliah.zsh-theme              eastwood.zsh-theme            jnrowe.zsh-theme              murilasso.zsh-theme           steeef.zsh-theme
-#afowler.zsh-theme             edvardm.zsh-theme             jonathan.zsh-theme            muse.zsh-theme                sunaku.zsh-theme
-#alanpeabody.zsh-theme         evan.zsh-theme                josh.zsh-theme                nanotech.zsh-theme            sunrise.zsh-theme
-#apple.zsh-theme               example.zsh-theme             jreese.zsh-theme              nebirhos.zsh-theme            superjarin.zsh-theme
-#arrow.zsh-theme               fino.zsh-theme                jtriley.zsh-theme             nicoulaj.zsh-theme            suvash.zsh-theme
-#aussiegeek.zsh-theme          fishy.zsh-theme               juanghurtado.zsh-theme        norm.zsh-theme                takashiyoshida.zsh-theme
-#awesomepanda.zsh-theme        flazz.zsh-theme               kardan.zsh-theme              obraun.zsh-theme              terminalparty.zsh-theme
-#bira.zsh-theme                fletcherm.zsh-theme           kennethreitz.zsh-theme        philips.zsh-theme             theunraveler.zsh-theme
-#blinks.zsh-theme              fox.zsh-theme                 kolo.zsh-theme                pmcgee.zsh-theme              tjkirch.zsh-theme
-#candy.zsh-theme               frisk.zsh-theme               kphoen.zsh-theme              pygmalion.zsh-theme           tonotdo.zsh-theme
-#clean.zsh-theme               funky.zsh-theme               lambda.zsh-theme              re5et.zsh-theme               trapd00r.zsh-theme
-#cloud.zsh-theme               fwalch.zsh-theme              linuxonly                     rgm.zsh-theme                 wedisagree.zsh-theme
-#crunch.zsh-theme              gallifrey.zsh-theme           lukerandall.zsh-theme         risto.zsh-theme               wezm+.zsh-theme
-#cypher.zsh-theme              gallois.zsh-theme             macovsky-ruby.zsh-theme       rixius.zsh-theme              wezm.zsh-theme
-#dallas.zsh-theme              garyblessington.zsh-theme     macovsky.zsh-theme            rkj-repos.zsh-theme           wuffers.zsh-theme
-#darkblood.zsh-theme           gentoo.zsh-theme              maran.zsh-theme               rkj.zsh-theme                 xiong-chiamiov-plus.zsh-theme
-#daveverwer.zsh-theme          geoffgarside.zsh-theme        mgutz.zsh-theme               robbyrussell.zsh-theme        xiong-chiamiov.zsh-theme
-#dieter.zsh-theme              gnzh.zsh-theme                mh.zsh-theme                  sammy.zsh-theme               zhann.zsh-theme
-#dogenpunk.zsh-theme           gozilla.zsh-theme             mikeh.zsh-theme               simple.zsh-theme
-#dpoggi.zsh-theme              humza.zsh-theme               miloshadzic.zsh-theme         skaro.zsh-theme
-#dst.zsh-theme                 imajes.zsh-theme              minimal.zsh-theme             smt.zsh-theme
-
-ZSH_THEME="robbyrussell"
+ZSH_THEME="henning"
 
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"
@@ -41,15 +17,19 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 hosts=('grep "Host " ~/.ssh/config | cut -d " " -f2 | grep -v "*"')
 zstyle ':completion:*:(ssh|scp|sftp):*' hosts $hosts
 
+
 setopt menu_complete
 
 # Disable autocorrect
 unsetopt correct_all
+unsetopt correct
+
+SVN_SHOW_BRANCH=true
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(brew git mvn)
+plugins=(git svn brew osx)
 
 # Faster git completion
 __git_files () {
@@ -57,6 +37,7 @@ __git_files () {
 }
 
 source $ZSH/oh-my-zsh.sh
+
 
 # Aliases
 
@@ -69,6 +50,10 @@ function duh { find . -type f -size +"$1"000k -exec ls -lh {} \; | awk '{ print 
 function hi { history | grep "$1" ; }
 function en { env | grep "$1" ; }
 function grp { grep -Ir --exclude="*\.svn*" "$1" *  ; }
+function al { alias | grep  "^$1" ; }
+function fn { typeset -f | grep  "^$1" ; }
+
+alias fnd='typeset -f'
 
 alias deploy="cp ~/code/aimspublic/0_0_2/dev/esb/service-core/target/service-core-1.0.0-SNAPSHOT.kar /Users/henningjuva/code/fuse/fuse-esb-7.0.0.fuse-061/deploy"
 alias e="subl"
@@ -95,12 +80,14 @@ alias ip="ipconfig getifaddr en4"
 alias fuse="cd ~/code/fuse/current"
 alias fuseesb="~/code/fuse/current/bin/fuse"
 alias setwls="~/code/oracle/wls12c/wlserver/server/bin/setWLSEnv.sh"
+alias nodemanager="~/code/oracle/wls12c/wlserver/server/bin/startNodeManager.sh"
+alias adminserver="~/code/oracle/aimsdomain200/startWebLogic.sh"
 
 # dirs
 alias ".."="cd .."
 alias "..."="cd .. && cd .."
 alias code="cd ~/code"
-alias aims="cd ~/code/aims/"
+alias aims="cd ~/code/aims/dev/integration/integrationapplication"
 alias aimsp="cd ~/code/aimspublic/dev/esb"
 alias ah="cd ~/code/aims_filestore"
 alias eclipse="cd /Applications/eclipse/Eclipse.app/Contents/MacOS"
@@ -109,11 +96,10 @@ alias down="cd /Downloads"
 
 # mvn
 function it { mvn failsafe:integration-test -Dit.test="$1" ; }
-alias mvn="mvn-color"
-alias mci="mvn clean install"
+alias mci="nocorrect mvn clean install"
 alias mcist="mci -DskipTests"
 alias mpt="mvn process-test-resources"
-alias mpr="mvn process-resources"
+alias mpr="mvn process-resources"   
 
 
 # git
@@ -125,14 +111,15 @@ alias push="git push"
 alias gsu="git submodule update"
 
 # svn
-function ci { svn ci -m"$1"; }
-function res { svn resolve --accept=working PATH "$1"; }
-function igs { svn propset svn:ignore "$1" .; }
-alias ig="svn propedit svn:ignore ."
-alias add="svn --force --depth infinity add ."
-alias st="svn st"
-alias up="svn up"
-alias revert="svn revert --depth=infinity ."
+function sci { svn ci -m"$1"; }
+function sres { svn resolve --accept=working PATH "$1"; }
+function sigs { svn propset svn:ignore "$1" .; }
+alias sig="svn propedit svn:ignore ."
+alias sadd="svn --force --depth infinity add ."
+alias sst="svn st"
+alias sup="svn up"
+alias srev="svn revert --depth=infinity ."
+alias sls="svn ls https://sos610.lv.no:18080/svn/aimspublic/branches"
 
 #JAVA
 alias java_ls='/usr/libexec/java_home -V 2>&1 | grep -E "\d.\d.\d_\d\d" | cut -d , -f 1 | colrm 1 4 | grep -v Home'
@@ -141,25 +128,24 @@ function java_use() {
     export JAVA_HOME=$(/usr/libexec/java_home -v $1)
     java -version
 }
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.6)
 
 # Customize to your needs...
-export PATH=/opt/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/lib/node_modules:~/code/oracle/wls12c/wlserver/server/bin:~/code/oracle/wls12c/wlserver/common/bin
+export M2_HOME=~/maven/apache-maven-3.1.1
+export PATH=$M2_HOME/bin:/opt/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/lib/node_modules:~/code/oracle/wls12c/wlserver/server/bin:~/code/oracle/wls12c/wlserver/common/bin
 export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled -Dfile.encoding=UTF-8"
 export DPOST_USER=HJ
 export DPOST_HOME=~/code/dp_home
-export DPOST_WEBAPP_REPO="/Users/henningjuva/code/digipost-webapp"
-export DPOST_POSTIT_REPO="/Users/henningjuva/code/digipost-postit"
 export EDITOR='subl -w'
 
 # AIMS
-export WL_HOME=~/code/oracle/wls12c
 export MW_HOME=~/code/oracle/wls12c
+export WL_HOME=~/code/oracle/wls12c
 export ORACLE_HOME=~/code/oracle
 export USER_MEM_ARGS="-Xmx1024m -XX:MaxPermSize=256m"
 export MANAGED_PORT=7003
-export AIMS_HOSTNAME=10.0.140.133
-export AIMS2_HOSTNAME=10.0.140.133
+export AIMS_HOSTNAME=aims1
+export AIMS2_HOSTNAME=aims2
 export AIMS_ENVIRONMENT=UNITTEST
 export AIMS_FILESTORE="/Users/henningjuva/code/aims_filestore"
 export AIMS_CACHE_MULTICAST_PORT=9541
@@ -169,11 +155,10 @@ export AIMS_CACHE_INTERFACE_RANGE="10.0.140.*"
 export FUSE_ESB_HOME=/Users/henningjuva/code/fuse/current
 
 
-# source /Users/henningjuva/code/oracle/wls12c/wlserver/server/bin/setWLSEnv.sh
+#source /Users/henningjuva/code/oracle/wls12c/wlserver/server/bin/setWLSEnv.sh
 
-#test
 
-export no_proxy=localhost,aims1,aims2,10.0.140.133
+export no_proxy=localhost,aims1,aims2,10.0.140.47
 function proxy (){    
     export http_proxy=proxy.lv.no:80
     export https_proxy=proxy.lv.no:80
@@ -182,4 +167,3 @@ function noproxy (){
     unset http_proxy
     unset https_proxy
 }
-proxy
