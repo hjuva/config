@@ -74,25 +74,44 @@ function sc { scp $1 sos610: }
 alias l="ls -la"
 alias c="clear"
 alias ip="ipconfig getifaddr en4"
+alias iph="ipconfig getifaddr en0"
+alias prf="cat ~/.profile | pbcopy"
 
 
 # launch
-alias fuse="cd ~/code/fuse/current"
-alias fuseesb="~/code/fuse/current/bin/fuse"
 alias setwls="~/code/oracle/wls12c/wlserver/server/bin/setWLSEnv.sh"
-alias nodemanager="~/code/oracle/wls12c/wlserver/server/bin/startNodeManager.sh"
-alias adminserver="~/code/oracle/aimsdomain200/startWebLogic.sh"
+function fuseesb {
+    ju 1.7
+    ~/code/fuse/current/bin/fuse
+}
+function nodemanager {
+    ju 1.6
+    ~/code/oracle/wls12c/wlserver/server/bin/startNodeManager.sh
+}
+function adminserver {
+    ju 1.6
+    ~/code/oracle/aimsdomain200/startWebLogic.sh
+}
 
 # dirs
 alias ".."="cd .."
 alias "..."="cd .. && cd .."
 alias code="cd ~/code"
-alias aims="cd ~/code/aims/dev/integration/integrationapplication"
-alias aimsp="cd ~/code/aimspublic/dev/esb"
+alias fuse="cd ~/code/fuse/current"
+alias aimsd="cd ~/code/aimsdoc"
+
+function aims { 
+    cd ~/code/aims/dev/integration/integrationapplication
+    ju 1.6
+}
+function aimsp { 
+    cd ~/code/aimspublic/dev/esb
+    ju 1.7
+}
 alias ah="cd ~/code/aims_filestore"
 alias eclipse="cd /Applications/eclipse/Eclipse.app/Contents/MacOS"
 alias maven="cd /usr/local/Cellar/maven/3.1.1"
-alias down="cd /Downloads"
+alias down="cd ~/Downloads"
 
 # mvn
 function it { mvn failsafe:integration-test -Dit.test="$1" ; }
@@ -100,7 +119,9 @@ alias mci="nocorrect mvn clean install"
 alias mcist="mci -DskipTests"
 alias mpt="mvn process-test-resources"
 alias mpr="mvn process-resources"   
-
+function mrprep { mvn release:prepare -Prelease -Dtag="$1" -DreleaseVersion="$1" -DdevelopmentVersion="$2"-SNAPSHOT -DscmCommentPrefix="AIMS-$3:" -Darguments="-DskipTests" ; }
+alias mrperf="mvn release:perform -Prelease -Darguments=-DskipTests"
+alias mrc="mvn release:clean -Prelease"
 
 # git
 alias gs="git status"
@@ -115,20 +136,26 @@ function sci { svn ci -m"$1"; }
 function sres { svn resolve --accept=working PATH "$1"; }
 function sigs { svn propset svn:ignore "$1" .; }
 alias sig="svn propedit svn:ignore ."
-alias sadd="svn --force --depth infinity add ."
+alias saa="svn --force --depth infinity add ."
+function sa { svn add "$1" ; }
 alias sst="svn st"
 alias sup="svn up"
-alias srev="svn revert --depth=infinity ."
+alias sco="svn checkout $1 $2"
+alias srevall="svn revert --depth=infinity ."
+function srev { svn revert $1 ; }
 alias sls="svn ls https://sos610.lv.no:18080/svn/aimspublic/branches"
+alias si="svn info"
+function slog { svn log --limit $1 -v ; }
 
 #JAVA
-alias java_ls='/usr/libexec/java_home -V 2>&1 | grep -E "\d.\d.\d_\d\d" | cut -d , -f 1 | colrm 1 4 | grep -v Home'
+alias jl="/usr/libexec/java_home -V 2>&1 | grep -E "\d.\d.\d_\d\d" | cut -d , -f 1 | colrm 1 4 | grep -v Home | uniq"
+alias jv="java -version"
+alias jps="jps -v"
 
-function java_use() {
+function ju() {
     export JAVA_HOME=$(/usr/libexec/java_home -v $1)
-    java -version
 }
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.6)
+ju 1.6
 
 # Customize to your needs...
 export M2_HOME=~/maven/apache-maven-3.1.1
